@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/player.png</file>
+        <file>images/cursor.png</file>
+        <file>images/bc.png</file>
+        <file>images/bullet.png</file>
+        <file>images/enemy.png</file>
+        <file>images/blood.png</file>
+    </qresource>
+    <qresource prefix="/sounds">
+        <file>sounds/bulletSound.mp3</file>
+        <file>sounds/monsterSpawn.mp3</file>
+        <file>sounds/walk.mp3</file>
+        <file>sounds/mainMusic.mp3</file>
+    </qresource>
+</RCC>

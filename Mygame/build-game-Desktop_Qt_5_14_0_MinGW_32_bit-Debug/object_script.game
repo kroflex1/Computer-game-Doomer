@@ -1,0 +1,10 @@
+Bullet.o
+Enemy.o
+Game.o
+Player.o
+main.o
+qrc_res.o
+moc_Bullet.o
+moc_Enemy.o
+moc_Game.o
+moc_Player.o
