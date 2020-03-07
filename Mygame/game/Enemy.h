@@ -13,7 +13,7 @@ public:
     void damage();
 public slots:
     void move();
-    QPointF setTarget(QPointF target);
+    QPointF setTarget();
 private:
     QPointF target;//точка к которой должен двигать противник
     int health;

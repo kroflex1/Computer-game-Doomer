@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Enemy_t {
-    QByteArrayData data[5];
-    char stringdata0[29];
+    QByteArrayData data[4];
+    char stringdata0[22];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,11 +35,10 @@ static const qt_meta_stringdata_Enemy_t qt_meta_stringdata_Enemy = {
 QT_MOC_LITERAL(0, 0, 5), // "Enemy"
 QT_MOC_LITERAL(1, 6, 4), // "move"
 QT_MOC_LITERAL(2, 11, 0), // ""
-QT_MOC_LITERAL(3, 12, 9), // "setTarget"
-QT_MOC_LITERAL(4, 22, 6) // "target"
+QT_MOC_LITERAL(3, 12, 9) // "setTarget"
 
     },
-    "Enemy\0move\0\0setTarget\0target"
+    "Enemy\0move\0\0setTarget"
 };
 #undef QT_MOC_LITERAL
 
@@ -58,11 +57,11 @@ static const uint qt_meta_data_Enemy[] = {
 
  // slots: name, argc, parameters, tag, flags
        1,    0,   24,    2, 0x0a /* Public */,
-       3,    1,   25,    2, 0x0a /* Public */,
+       3,    0,   25,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
-    QMetaType::QPointF, QMetaType::QPointF,    4,
+    QMetaType::QPointF,
 
        0        // eod
 };
@@ -74,7 +73,7 @@ void Enemy::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->move(); break;
-        case 1: { QPointF _r = _t->setTarget((*reinterpret_cast< QPointF(*)>(_a[1])));
+        case 1: { QPointF _r = _t->setTarget();
             if (_a[0]) *reinterpret_cast< QPointF*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }

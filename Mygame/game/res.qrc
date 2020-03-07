@@ -6,6 +6,8 @@
         <file>images/bullet.png</file>
         <file>images/enemy.png</file>
         <file>images/blood.png</file>
+        <file>images/healthBar.png</file>
+        <file>images/health.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/bulletSound.mp3</file>

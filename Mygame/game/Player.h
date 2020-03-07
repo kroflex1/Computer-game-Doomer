@@ -13,11 +13,13 @@ class Player:public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 public:
     Player(QGraphicsItem * parent=0);
-    void keyPressEvent(QKeyEvent * event);
     QList <Enemy> allEnemyes;
+    int health;
 
 public slots:
     void spawnEnemy();
+    void createBullet();
+    void damage();
 };
 
 #endif // PLAYER_H

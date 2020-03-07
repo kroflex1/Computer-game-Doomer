@@ -2,9 +2,11 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "Enemy.h"
+#include "Health.h"
 
 #include <QTimer>
 #include <QGraphicsTextItem>
+#include <QGraphicsPixmapItem>
 #include <QFont>
 #include <QCursor>
 #include <QLineF>
@@ -35,13 +37,23 @@ Game::Game():QGraphicsView(){
     player->setFocus();
     scene->addItem(player);//добавляю на сцену
     player->setPos(800,400);
+    player->setObjectName("player");
+
+    //создание полоски жизней
+    health = new Health();
+
+    QGraphicsPixmapItem* healthBar = new QGraphicsPixmapItem();
+    healthBar->setPixmap(QPixmap(":images/images/healthBar.png"));
+    healthBar->setPos(health->x(), health->y()-15);
+
+    scene->addItem(healthBar);
+    scene->addItem(health);
 
 
     //спавн противников
     QTimer* spawnTime = new QTimer();
     connect(spawnTime, SIGNAL(timeout()), player, SLOT(spawnEnemy()));
-    spawnTime->start(2000);
-
+    spawnTime->start(1000000);
 
     //создаю курсор
     QCursor cursor = QCursor(QPixmap(":/images/images/cursor.png"));
@@ -50,10 +62,6 @@ Game::Game():QGraphicsView(){
     //отслеживание мыши без её нажатия
     setMouseTracking(true);
 
-    //проигрывание музыки
-    QMediaPlayer* mainMusic = new QMediaPlayer();
-    mainMusic->setMedia(QUrl("qrc:/sounds/sounds/mainMusic.mp3"));
-    mainMusic->play();
 
     //полноэкранный режим
     showFullScreen();
@@ -73,16 +81,63 @@ void Game::mouseMoveEvent (QMouseEvent *event)
 void Game::mousePressEvent(QMouseEvent *event)
 {
 
-    QPointF startPos = QPointF(player->x(),player->y());//место откуда вылетает пуля
-
-    Bullet* bullet = new Bullet();
-    bullet->setPos(startPos);
-    scene->addItem(bullet);
-
-    QLineF ln(bullet->pos(), QCursor::pos());
-    int angle = -1 * ln.angle();
-    bullet->setRotation(angle);
+    timeShoot = new QTimer();
+    timeShoot->start(100);
+    connect(timeShoot, SIGNAL(timeout()), player, SLOT(createBullet()));
 
 }
+
+void Game::mouseReleaseEvent(QMouseEvent *event)
+{
+    timeShoot->stop();
+}
+
+void Game::gameOver()
+{
+    close();
+}
+
+void Game::keyPressEvent(QKeyEvent *event)
+{
+
+        // Движение влево
+        if (event->key() == Qt::Key_Left)
+        {
+            if (player->pos().x() > 0)
+            {
+                player->setPos(player->x()-10, player->y());
+            }
+        }
+        //Движение вправо
+        else if (event->key() == Qt::Key_Right)
+        {
+            if (player->pos().x() < 1424)
+            {
+                player->setPos(player->x()+10, player->y());
+            }
+        }
+        //Движение вверх
+        else if (event->key() == Qt::Key_Up)
+        {
+            if (player->pos().y() > 0)
+            {
+                player->setPos(player->x(), player->y()-10);
+            }
+        }
+        //Движение вниз
+        else if (event->key() == Qt::Key_Down)
+        {
+            if (player->pos().y() < 790)
+            {
+                player->setPos(player->x(), player->y()+10);
+            }
+        }
+
+
+}
+
+
+
+
 
 

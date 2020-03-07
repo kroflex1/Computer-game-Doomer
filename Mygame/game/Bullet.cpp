@@ -37,8 +37,9 @@ void Bullet::move(){
 
 
     //проверка на вылет за границу
-    if (x() > 1700 or x() < -50 or y()>950 or y() < -50)
+    if (x() > 1650 or x() < -50 or y() > 950 or y() < -50)
     {
+        scene()->removeItem(this);
         delete this;
         return;
     }
