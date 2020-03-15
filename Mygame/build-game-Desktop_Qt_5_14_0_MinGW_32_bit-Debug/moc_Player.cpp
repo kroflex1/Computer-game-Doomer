@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Player_t {
-    QByteArrayData data[5];
-    char stringdata0[39];
+    QByteArrayData data[6];
+    char stringdata0[52];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,10 +36,12 @@ QT_MOC_LITERAL(0, 0, 6), // "Player"
 QT_MOC_LITERAL(1, 7, 10), // "spawnEnemy"
 QT_MOC_LITERAL(2, 18, 0), // ""
 QT_MOC_LITERAL(3, 19, 12), // "createBullet"
-QT_MOC_LITERAL(4, 32, 6) // "damage"
+QT_MOC_LITERAL(4, 32, 6), // "damage"
+QT_MOC_LITERAL(5, 39, 12) // "amountDamage"
 
     },
-    "Player\0spawnEnemy\0\0createBullet\0damage"
+    "Player\0spawnEnemy\0\0createBullet\0damage\0"
+    "amountDamage"
 };
 #undef QT_MOC_LITERAL
 
@@ -59,12 +61,12 @@ static const uint qt_meta_data_Player[] = {
  // slots: name, argc, parameters, tag, flags
        1,    0,   29,    2, 0x0a /* Public */,
        3,    0,   30,    2, 0x0a /* Public */,
-       4,    0,   31,    2, 0x0a /* Public */,
+       4,    1,   31,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    5,
 
        0        // eod
 };
@@ -77,11 +79,10 @@ void Player::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         switch (_id) {
         case 0: _t->spawnEnemy(); break;
         case 1: _t->createBullet(); break;
-        case 2: _t->damage(); break;
+        case 2: _t->damage((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
 QT_INIT_METAOBJECT const QMetaObject Player::staticMetaObject = { {

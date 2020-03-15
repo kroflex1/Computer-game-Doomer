@@ -1,8 +1,11 @@
-#include "Game.h"
+#include "game.h"
 #include "Player.h"
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Health.h"
+
+#include "EnemyGunner.h"
+
 
 #include <QTimer>
 #include <QGraphicsTextItem>
@@ -13,16 +16,15 @@
 #include <QMouseEvent>
 #include <QPointF>
 #include <QGraphicsScene>
-#include <QMediaPlayer>
-#include <QMediaPlaylist>
-
+#include <QPushButton>
+#include <stdlib.h>
 
 
 Game::Game():QGraphicsView(){
     // создание сцены
     scene = new QGraphicsScene();
     scene->setSceneRect(0,0,1600,900);
-    setBackgroundBrush(QBrush(QImage(":/images/images/bc.png")));
+    setBackgroundBrush(QBrush(QImage(":/images/images/bg.png")));
     setScene(scene);
 
 
@@ -39,21 +41,33 @@ Game::Game():QGraphicsView(){
     player->setPos(800,400);
     player->setObjectName("player");
 
+
     //создание полоски жизней
     health = new Health();
 
     QGraphicsPixmapItem* healthBar = new QGraphicsPixmapItem();
     healthBar->setPixmap(QPixmap(":images/images/healthBar.png"));
-    healthBar->setPos(health->x(), health->y()-15);
+    healthBar->setPos(0, health->y()-15);
 
     scene->addItem(healthBar);
     scene->addItem(health);
 
 
-    //спавн противников
-    QTimer* spawnTime = new QTimer();
-    connect(spawnTime, SIGNAL(timeout()), player, SLOT(spawnEnemy()));
-    spawnTime->start(1000000);
+    //создание очков прогресса
+    score = new Score();
+    scene->addItem(score);
+
+
+    //спавн противников Enemy
+    timeSpawn = new QTimer();
+    connect(timeSpawn, SIGNAL(timeout()), player, SLOT(spawnEnemy()));
+    timeSpawn->start(1500);
+
+    EnemyGunner* gunner = new EnemyGunner();
+    scene->addItem(gunner);
+
+
+
 
     //создаю курсор
     QCursor cursor = QCursor(QPixmap(":/images/images/cursor.png"));
@@ -82,7 +96,7 @@ void Game::mousePressEvent(QMouseEvent *event)
 {
 
     timeShoot = new QTimer();
-    timeShoot->start(100);
+    timeShoot->start(150);
     connect(timeShoot, SIGNAL(timeout()), player, SLOT(createBullet()));
 
 }
@@ -92,10 +106,12 @@ void Game::mouseReleaseEvent(QMouseEvent *event)
     timeShoot->stop();
 }
 
+
 void Game::gameOver()
 {
     close();
 }
+
 
 void Game::keyPressEvent(QKeyEvent *event)
 {

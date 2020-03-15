@@ -6,5 +6,5 @@
 Health::Health()
 {
     setPixmap(QPixmap(":images/images/health.png"));
-    setPos(0,688);
+    setPos(2,688);
 }

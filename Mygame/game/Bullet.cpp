@@ -19,9 +19,6 @@ Bullet::Bullet(QGraphicsItem *parent): QObject(),QGraphicsPixmapItem(parent){
     connect(move_timer,SIGNAL(timeout()),this,SLOT(move()));
     move_timer->start(50);
 
-    QMediaPlayer* soundShoot = new QMediaPlayer();
-    soundShoot->setMedia(QUrl("qrc:/sounds/sounds/bulletSound.mp3"));
-    soundShoot->play();
 }
 
 
@@ -35,7 +32,6 @@ void Bullet::move(){
     setPos(x()+dx, y()+dy);
 
 
-
     //проверка на вылет за границу
     if (x() > 1650 or x() < -50 or y() > 950 or y() < -50)
     {
@@ -43,7 +39,6 @@ void Bullet::move(){
         delete this;
         return;
     }
-
 
 
 }

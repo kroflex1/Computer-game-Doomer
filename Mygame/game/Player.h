@@ -14,12 +14,15 @@ class Player:public QObject, public QGraphicsPixmapItem
 public:
     Player(QGraphicsItem * parent=0);
     QList <Enemy> allEnemyes;
+
     int health;
+    int fullHealth;
+    int timeSpawnCommonEnemy;
 
 public slots:
     void spawnEnemy();
     void createBullet();
-    void damage();
+    void damage(int amountDamage);
 };
 
 #endif // PLAYER_H

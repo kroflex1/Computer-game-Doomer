@@ -4,11 +4,13 @@
 #include "Bullet.h"
 #include "Health.h"
 
+
 #include <QKeyEvent>
 #include <QTimer>
 #include <QGraphicsPixmapItem>
 #include <QObject>
 #include <QMediaPlayer>
+#include <QDebug>
 
 
 
@@ -18,7 +20,10 @@ Player::Player(QGraphicsItem *parent):QObject(), QGraphicsPixmapItem(parent)
     //задаю спрайт для персонажа
     setPixmap(QPixmap(":/images/images/player.png"));
 
-    health  = 10;
+    fullHealth = 1000;// максимальное здоровье
+    health  = 1000;//текущее здоровье
+
+    timeSpawnCommonEnemy = 1500; // время в мс через которе спавнится Enemy
 
 
 }
@@ -29,11 +34,20 @@ void Player::spawnEnemy()
     Enemy* enemy = new Enemy();
     scene()->addItem(enemy);
 
-    QMediaPlayer* soundSpawn = new QMediaPlayer();
-    soundSpawn->setMedia(QUrl("qrc:/sounds/sounds/monsterSpawn.mp3"));
-    soundSpawn->play();
+    //уменьшаю время между спавнами противников Enemy
+    if (timeSpawnCommonEnemy<=350)
+    {
+        game->timeSpawn->start(350);
+    }
+
+    else
+    {
+        timeSpawnCommonEnemy -= 15;
+        game->timeSpawn->start(timeSpawnCommonEnemy);
+    }
 
 }
+
 
 void Player::createBullet()
 {
@@ -50,11 +64,13 @@ void Player::createBullet()
 
 }
 
-void Player::damage()
+void Player::damage(int amountDamge)
 {
-    health -=1;
-    game->health->setPos(game->health->x(), game->health->y() + 21.2 );
+    health -=amountDamge;
+    float persent =amountDamge / (fullHealth / 100);
+    game->health->setPos(game->health->x(), game->health->y()+persent*(212/100) );
 
+    //если здоровье меньше нуля то игра заканчивается
     if (health <= 0)
     {
         game->gameOver();

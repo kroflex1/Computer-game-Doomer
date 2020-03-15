@@ -2,6 +2,7 @@
 #define GAME_H
 #include "Player.h"
 #include "Health.h"
+#include "Score.h"
 
 #include <QGraphicsView>
 #include <QMouseEvent>
@@ -17,13 +18,18 @@ public:
     void keyPressEvent(QKeyEvent * event);
     void mouseReleaseEvent(QMouseEvent *event);
     void gameOver();
+    void displayGameOverWindow();
 
 
     QGraphicsScene * scene;
     Player* player;
     Health* health;
+    Score* score;
 
-    QTimer *timeShoot;
+
+    QTimer* timeShoot;
+    QTimer* timeSpawn;
+    QTimer* timeSpawnEnemyGunner;
 
 };
 
