@@ -1,6 +1,8 @@
 #include "Enemy.h"
 #include "Bullet.h"
 #include "Player.h"
+#include "FirstAidKit.h"
+#include "Blood.h"
 #include "game.h"
 
 
@@ -10,6 +12,7 @@
 #include <QGraphicsScene>
 #include "qmath.h"
 #include <stdlib.h>
+#include <random>
 
 extern Game * game;
 
@@ -17,9 +20,51 @@ Enemy::Enemy(QGraphicsItem *parent): QObject(),QGraphicsPixmapItem(parent)
 {
     setPixmap(QPixmap(":images/images/enemy.png"));
 
-    health = 3;
+    setStartPos();
 
-    //задаю рандомную позицию
+    health = 3;
+    speed = 8;
+    prize = 10;
+
+    //перевдижение
+    timerMove = new QTimer();
+    connect(timerMove, SIGNAL(timeout()), this, SLOT(move()));
+    timerMove->start(50);
+
+    timeToRotation = new QTimer();
+    connect(timeToRotation, SIGNAL(timeout()), this, SLOT(setTarget()));
+    timeToRotation->start(10);
+
+}
+
+void Enemy::damage()
+{
+    health-=1;
+    if (health <= 0)
+    {
+        game->score->increase(prize);
+        Blood* blood = new Blood();
+        blood->setPos(x(),y());
+        scene()->addItem(blood);
+
+        //падение аптечки после смерти врага
+        if (rand()%100+1 <= 25)
+        {
+            FirstAidKit* firstAidKit = new FirstAidKit();
+            firstAidKit->setPos(x(),y());
+            game->scene->addItem(firstAidKit);
+        }
+
+
+        scene()->removeItem(this);
+        delete this;
+        return;
+    }
+
+}
+
+void Enemy::setStartPos()
+{
     int randomChoice = rand()%4+1;
     if (randomChoice == 1)
     {
@@ -37,31 +82,36 @@ Enemy::Enemy(QGraphicsItem *parent): QObject(),QGraphicsPixmapItem(parent)
     {
         setPos(rand()%-50-100, rand()%950);
     }
-
-
-    //перевдижение
-    timerMove = new QTimer();
-    connect(timerMove, SIGNAL(timeout()), this, SLOT(move()));
-    timerMove->start(100);
-
-    timeToRotation = new QTimer();
-    connect(timerMove, SIGNAL(timeout()), this, SLOT(setTarget()));
-    timeToRotation->start(10);
-
 }
 
-void Enemy::damage()
+int Enemy::getHealth()
 {
-    health-=1;
-    if (health <= 0)
-    {
-        game->score->increase(10);
+    return health;
+}
 
-        scene()->removeItem(this);
-        delete this;
-        return;
-    }
+int Enemy::setHealth(int num)
+{
+    health = num;
+}
 
+int Enemy::getSpeed()
+{
+    return speed;
+}
+
+int Enemy::setSpeed(int num)
+{
+    speed = num;
+}
+
+int Enemy::getPrize()
+{
+    return prize;
+}
+
+int Enemy::setPrize(int num)
+{
+    prize = num;
 }
 
 QPointF Enemy::getTarget()
@@ -80,7 +130,6 @@ QPointF Enemy::setTarget()
 void Enemy::move()
 {
 
-    int speed = 10;
     double theta = rotation();
 
     double dy = speed * qSin(qDegreesToRadians(theta));
@@ -100,7 +149,7 @@ void Enemy::move()
 
                 // удаляю пулю
                 scene()->removeItem(colliding_items[i]);
-                delete colliding_items[i];          
+                delete colliding_items[i];
                 this->damage();
                 return;
 
@@ -108,7 +157,7 @@ void Enemy::move()
 
             else if (typeid(*(colliding_items[i])) == typeid(Player))
             {
-                game->player->damage(10);
+                game->player->damage(20);
             }
     }
 

@@ -12,6 +12,14 @@ class Enemy: public QObject, public QGraphicsPixmapItem{
 public:
     Enemy(QGraphicsItem * parent=0);
     void damage();
+    void setStartPos();
+    int getHealth();
+    int setHealth(int num);
+    int getSpeed();
+    int setSpeed(int num);
+    int getPrize();
+    int setPrize(int num);
+
     QPointF getTarget();
     QTimer* timerMove;
     QTimer* timeToRotation;
@@ -22,6 +30,8 @@ public slots:
 private:
     QPointF target;//точка к которой должен двигать противник
     int health;
+    int speed;
+    int prize;
 };
 
 #endif // ENEMY_H

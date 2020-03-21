@@ -4,16 +4,20 @@
         <file>images/cursor.png</file>
         <file>images/bullet.png</file>
         <file>images/enemy.png</file>
-        <file>images/blood.png</file>
         <file>images/healthBar.png</file>
-        <file>images/health.png</file>
         <file>images/bg.png</file>
         <file>images/enemyGunner.png</file>
+        <file>images/enemyBullet.png</file>
+        <file>images/firstAidKit.png</file>
+        <file>images/health.png</file>
+        <file>images/blood1.png</file>
+        <file>images/blood2.png</file>
+        <file>images/blood3.png</file>
+        <file>images/menuBG.png</file>
+        <file>images/buttonPlay.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sounds/bulletSound.mp3</file>
-        <file>sounds/monsterSpawn.mp3</file>
-        <file>sounds/walk.mp3</file>
         <file>sounds/mainMusic.mp3</file>
     </qresource>
 </RCC>

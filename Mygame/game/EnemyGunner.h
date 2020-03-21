@@ -11,8 +11,10 @@ class EnemyGunner:public Enemy
     Q_OBJECT
 public:
     EnemyGunner(QGraphicsItem * parent=0);
+    void setStartPos();
     QTimer* timeToChangeStatus; // отвечает за изменение действия EnemyGunner(например отстановить и начать стрелять)
-    QTimer* timeToShoot;
+    QTimer* timeToShoot; //противник стоит и стреляет
+    QTimer* timeToFire; //сколкьо проходит времени между вылетами пуль
     bool statusMove;
     bool statusShoot;
 

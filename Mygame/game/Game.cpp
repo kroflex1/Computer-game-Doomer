@@ -3,6 +3,8 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Health.h"
+#include "EnemyBullet.h"
+#include "Blood.h"
 
 #include "EnemyGunner.h"
 
@@ -16,11 +18,13 @@
 #include <QMouseEvent>
 #include <QPointF>
 #include <QGraphicsScene>
-#include <QPushButton>
+#include <QGraphicsItem>
+#include <QList>
 #include <stdlib.h>
 
 
 Game::Game():QGraphicsView(){
+
     // создание сцены
     scene = new QGraphicsScene();
     scene->setSceneRect(0,0,1600,900);
@@ -59,14 +63,23 @@ Game::Game():QGraphicsView(){
 
 
     //спавн противников Enemy
-    timeSpawn = new QTimer();
-    connect(timeSpawn, SIGNAL(timeout()), player, SLOT(spawnEnemy()));
-    timeSpawn->start(1500);
+    timeSpawnEnemy = new QTimer();
+    connect(timeSpawnEnemy, SIGNAL(timeout()), player, SLOT(spawnEnemy()));
+    timeSpawnEnemy->start(1500);
 
-    EnemyGunner* gunner = new EnemyGunner();
-    scene->addItem(gunner);
+    //спавн противников EnemyGunner
+    timeSpawnEnemyGunner = new QTimer();
+    connect(timeSpawnEnemyGunner, SIGNAL(timeout()), player, SLOT(spawnEnemyGunner()));
+    timeSpawnEnemyGunner->start(2000);
 
+    //проигрывание музыки
+    QMediaPlayer* mainMusic = new QMediaPlayer();
+    mainMusic->setMedia(QUrl("qrc:/sounds/sounds/mainMusic.mp3"));
+    mainMusic->play();
 
+    Blood* blood = new Blood();
+    scene->addItem(blood);
+    blood->setPos(400,400);
 
 
     //создаю курсор
@@ -96,7 +109,7 @@ void Game::mousePressEvent(QMouseEvent *event)
 {
 
     timeShoot = new QTimer();
-    timeShoot->start(150);
+    timeShoot->start(80);
     connect(timeShoot, SIGNAL(timeout()), player, SLOT(createBullet()));
 
 }
@@ -115,13 +128,13 @@ void Game::gameOver()
 
 void Game::keyPressEvent(QKeyEvent *event)
 {
-
+        int speed = 17;
         // Движение влево
         if (event->key() == Qt::Key_Left)
         {
             if (player->pos().x() > 0)
             {
-                player->setPos(player->x()-10, player->y());
+                player->setPos(player->x()-speed, player->y());
             }
         }
         //Движение вправо
@@ -129,7 +142,7 @@ void Game::keyPressEvent(QKeyEvent *event)
         {
             if (player->pos().x() < 1424)
             {
-                player->setPos(player->x()+10, player->y());
+                player->setPos(player->x()+speed, player->y());
             }
         }
         //Движение вверх
@@ -137,7 +150,7 @@ void Game::keyPressEvent(QKeyEvent *event)
         {
             if (player->pos().y() > 0)
             {
-                player->setPos(player->x(), player->y()-10);
+                player->setPos(player->x(), player->y()-speed);
             }
         }
         //Движение вниз
@@ -145,9 +158,12 @@ void Game::keyPressEvent(QKeyEvent *event)
         {
             if (player->pos().y() < 790)
             {
-                player->setPos(player->x(), player->y()+10);
+                player->setPos(player->x(), player->y()+speed);
             }
         }
+
+
+
 
 
 }

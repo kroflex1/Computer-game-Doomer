@@ -7,6 +7,8 @@
 #include <QGraphicsView>
 #include <QMouseEvent>
 #include <QTimer>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 class Game:public QGraphicsView
 {
@@ -28,8 +30,11 @@ public:
 
 
     QTimer* timeShoot;
-    QTimer* timeSpawn;
+    QTimer* timeSpawnEnemy;
     QTimer* timeSpawnEnemyGunner;
+
+    QMediaPlayer* bgMusic;
+    QMediaPlaylist* playlist;
 
 };
 

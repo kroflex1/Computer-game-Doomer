@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "EnemyGunner.h"
 #include "Bullet.h"
 #include "Health.h"
 
@@ -20,10 +21,27 @@ Player::Player(QGraphicsItem *parent):QObject(), QGraphicsPixmapItem(parent)
     //задаю спрайт для персонажа
     setPixmap(QPixmap(":/images/images/player.png"));
 
-    fullHealth = 1000;// максимальное здоровье
-    health  = 1000;//текущее здоровье
+    fullHealth = 2000;// максимальное здоровье
+    health  = fullHealth;//текущее здоровье
 
     timeSpawnCommonEnemy = 1500; // время в мс через которе спавнится Enemy
+
+
+}
+
+void Player::medication(int amountHealth)
+{
+    if (health + amountHealth > fullHealth)
+    {
+        health = fullHealth;
+        game->health->setPos(game->health->x(), 688);
+    }
+    else
+    {
+        health+=amountHealth;
+        float persent =amountHealth /  (fullHealth/100);
+        game->health->setPos(game->health->x(), game->health->y() - persent*(212/100));
+    }
 
 
 }
@@ -37,15 +55,21 @@ void Player::spawnEnemy()
     //уменьшаю время между спавнами противников Enemy
     if (timeSpawnCommonEnemy<=350)
     {
-        game->timeSpawn->start(350);
+        game->timeSpawnEnemy->setInterval(350);
     }
 
     else
     {
         timeSpawnCommonEnemy -= 15;
-        game->timeSpawn->start(timeSpawnCommonEnemy);
+        game->timeSpawnEnemy->setInterval(timeSpawnCommonEnemy);
     }
 
+}
+
+void Player::spawnEnemyGunner()
+{
+    EnemyGunner* enemyGunner = new EnemyGunner();
+    scene()->addItem(enemyGunner);
 }
 
 
@@ -74,6 +98,7 @@ void Player::damage(int amountDamge)
     if (health <= 0)
     {
         game->gameOver();
+        qDebug()<<"Игра окончена";
     }
 }
 

@@ -20,7 +20,9 @@ public:
     int timeSpawnCommonEnemy;
 
 public slots:
+    void medication(int amount);
     void spawnEnemy();
+    void spawnEnemyGunner();
     void createBullet();
     void damage(int amountDamage);
 };

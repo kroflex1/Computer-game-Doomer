@@ -1,4 +1,6 @@
 #include "Bullet.h"
+#include "Player.h"
+#include "game.h"
 
 
 #include <QPixmap>
@@ -10,7 +12,7 @@
 #include <QList>
 #include <QGraphicsScene>
 
-
+extern Game* game;
 
 Bullet::Bullet(QGraphicsItem *parent): QObject(),QGraphicsPixmapItem(parent){
     setPixmap(QPixmap(":images/images/bullet.png"));
@@ -18,6 +20,7 @@ Bullet::Bullet(QGraphicsItem *parent): QObject(),QGraphicsPixmapItem(parent){
     QTimer * move_timer = new QTimer(this);
     connect(move_timer,SIGNAL(timeout()),this,SLOT(move()));
     move_timer->start(50);
+
 
 }
 
@@ -33,12 +36,11 @@ void Bullet::move(){
 
 
     //проверка на вылет за границу
-    if (x() > 1650 or x() < -50 or y() > 950 or y() < -50)
+    if (x() > 1700 or x() < -100 or y() > 1000 or y() < -100)
     {
         scene()->removeItem(this);
         delete this;
         return;
     }
-
 
 }

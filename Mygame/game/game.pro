@@ -18,21 +18,31 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Blood.cpp \
     Bullet.cpp \
+    Button.cpp \
     Enemy.cpp \
+    EnemyBullet.cpp \
     EnemyGunner.cpp \
+    FirstAidKit.cpp \
     Game.cpp \
     Health.cpp \
+    MainMenu.cpp \
     Player.cpp \
     Score.cpp \
     main.cpp
 
 HEADERS += \
+    Blood.h \
     Bullet.h \
+    Button.h \
     Enemy.h \
+    EnemyBullet.h \
     EnemyGunner.h \
+    FirstAidKit.h \
     Game.h \
     Health.h \
+    MainMenu.h \
     Player.h \
     Score.h
 
